@@ -71,7 +71,7 @@ function UserForm() {
 
   return (
     <form
-      className="grid grid-cols-8 gap-6 mx-52 my-10"
+      className="grid grid-cols-8 gap-6 mx my-10"
       onSubmit={handleSubmit}
     >
       <CustomTextField

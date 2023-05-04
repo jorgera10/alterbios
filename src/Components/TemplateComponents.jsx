@@ -10,6 +10,7 @@ export const CustomTextField = ({
 }) => {
   return (
     <TextField
+      required
       className={className}
       hiddenLabel
       id={name}
@@ -58,6 +59,7 @@ export const CustomSelect = ({
 }) => {
   return (
     <TextField
+      required
       className={className}
       select
       label={label}
@@ -65,6 +67,7 @@ export const CustomSelect = ({
       name={name}
       value={value}
       onChange={onChange}
+      size="small"
     >
       {options.map((option) => (
         <MenuItem key={option.id} value={option.label}>
@@ -74,5 +77,3 @@ export const CustomSelect = ({
     </TextField>
   );
 };
-
-
