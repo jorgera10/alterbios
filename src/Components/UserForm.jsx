@@ -8,32 +8,28 @@ import {
 import { Button } from "@mui/material";
 
 function UserForm() {
-  const civilStatus = [
+  const taskType = [
     {
       id: 1,
-      label: "Single",
+      label: "Staff",
     },
     {
       id: 2,
-      label: "Married",
+      label: "Job",
     },
     {
       id: 3,
-      label: "Divorced",
-    },
-    {
-      id: 4,
-      label: "Widow",
+      label: "School",
     },
   ];
 
   const [userData, setUserData] = useState({
-    name: "",
-    lastName: "",
-    age: 0,
-    isActive: false,
-    birthdate: "--/--/----",
-    civilStatus: {
+    title: "",
+    description: "",
+    importance: 0,
+    fixed: false,
+    finishDate: "--/--/----",
+    taskType: {
       id: 0,
       label: "",
     },
@@ -44,14 +40,14 @@ function UserForm() {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
-    if (name === "civilStatus") {
-      const selectedOption = civilStatus.find(
+    if (name === "taskType") {
+      const selectedOption = taskType.find(
         (option) => option.label === target.value
       );
 
       setUserData({
         ...userData,
-        civilStatus: {
+        taskType: {
           id: selectedOption.id,
           label: selectedOption.label,
         },
@@ -71,59 +67,59 @@ function UserForm() {
 
   return (
     <form
-      className="grid grid-cols-8 gap-6 mx my-10"
+      className="grid grid-cols-8 gap-6 mx-52 my-10"
       onSubmit={handleSubmit}
     >
       <CustomTextField
         className="col-span-4"
-        label="Name"
-        name="name"
+        label="Title"
+        name="title"
         type="text"
-        value={userData.name}
+        value={userData.title}
         onChange={handleInputChange}
       />
       <CustomTextField
         className="col-span-4"
-        label="Last Name"
-        name="lastName"
+        label="Description"
+        name="description"
         type="text"
-        value={userData.lastName}
+        value={userData.description}
         onChange={handleInputChange}
       />
 
       <CustomTextField
         className="col-span-4"
-        label="Age"
+        label="Importance"
         type="number"
-        name="age"
-        value={userData.age}
+        name="importance"
+        value={userData.importance}
         onChange={handleInputChange}
       />
 
       <CustomTextField
         className="col-span-4"
-        label="Birth Date"
+        label="Finish Date"
         type="date"
-        name="birthdate"
-        value={userData.birthdate}
+        name="finishDate"
+        value={userData.finishDate}
         onChange={handleInputChange}
       />
 
       <CustomCheckbox
         className="col-span-4"
-        name="isActive"
-        checked={userData.isActive}
+        name="fixed"
+        checked={userData.fixed}
         onChange={handleInputChange}
-        label="Graduated"
+        label="Fixed"
       />
 
       <CustomSelect
         className="col-span-4"
         label="Civil Status"
-        name="civilStatus"
-        value={userData.civilStatus.label}
+        name="taskType"
+        value={userData.taskType.label}
         onChange={handleInputChange}
-        options={civilStatus}
+        options={taskType}
       />
 
       <Button type="submit" variant="outlined" className="col-span-8">
