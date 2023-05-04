@@ -1,16 +1,35 @@
 import React, { useState } from "react";
-import "../App.css";
-import TextField from "@mui/material/TextField";
-import { Stack, Checkbox, FormGroup, FormControlLabel } from "@mui/material";
+import "../index.css";
+import { Checkbox, FormControlLabel, MenuItem, TextField } from "@mui/material";
+import CustomTextField from "./TemplateComponents";
 
 function UserForm() {
-  const [UserData, setFormData] = useState({
+  const civilStatus = [
+    {
+      id: 1,
+      label: "Single",
+    },
+    {
+      id: 2,
+      label: "Married",
+    },
+    {
+      id: 3,
+      label: "Divorced",
+    },
+    {
+      id: 4,
+      label: "Widow",
+    },
+  ];
+
+  const [UserData, setUserData] = useState({
     name: "",
     lastName: "",
     age: 0,
     isActive: false,
-    birthdate: "",
-    interests: [],
+    birthdate: "01/01/1999",
+    civilStatus: [],
   });
 
   const handleInputChange = (e) => {
@@ -18,7 +37,7 @@ function UserForm() {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
-    setFormData({
+    setUserData({
       ...UserData,
       [name]: value,
     });
@@ -26,56 +45,49 @@ function UserForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, lastName, age, isActive, birthdate, interests } = UserData;
-    const user = { name, lastName, age, isActive, birthdate, interests };
+    const { name, lastName, age, isActive, birthdate, civilStatus } = UserData;
+    const user = { name, lastName, age, isActive, birthdate, civilStatus };
     console.log(user);
   };
 
   return (
-    <Stack
+    <form
+      className="grid grid-cols-8 gap-6 mx-52 my-10"
       onSubmit={handleSubmit}
-      component="form"
-      sx={{
-        width: "25ch",
-      }}
-      spacing={2}
-      noValidate
-      autoComplete="off"
     >
-      <TextField
-        hiddenLabel
-        id="outlined-basic"
+      <CustomTextField
+        className="col-span-4"
         label="Name"
-        variant="outlined"
-        size="small"
-        type="text"
         name="name"
+        type="text"
         value={UserData.name}
         onChange={handleInputChange}
       />
-      <TextField
-        hiddenLabel
-        id="outlined-basic"
+      <CustomTextField
+        className="col-span-4"
         label="Last Name"
-        variant="outlined"
-        size="small"
-        type="text"
         name="lastName"
+        type="text"
         value={UserData.lastName}
         onChange={handleInputChange}
       />
-      <TextField
-        id="filled-number"
+
+      <CustomTextField
+        className="col-span-4"
         label="Age"
-        variant="outlined"
-        size="small"
         type="number"
         name="age"
         value={UserData.age}
         onChange={handleInputChange}
-        InputLabelProps={{
-          shrink: true,
-        }}
+      />
+
+      <CustomTextField
+        className="col-span-4"
+        label="Date"
+        type="date"
+        name="date"
+        value={UserData.birthdate}
+        onChange={handleInputChange}
       />
 
       <FormControlLabel
@@ -92,32 +104,23 @@ function UserForm() {
       />
 
       <TextField
-        hiddenLabel
-        id="outlined-basic"
-        label="Date"
-        variant="outlined"
-        size="small"
-        type="date"
-        name="birthdate"
-        value={UserData.birthdate}
-        onChange={handleInputChange}
-      />
-
-      <label htmlFor="interests">Interests:</label>
-      <select
-        multiple={true}
-        id="interests"
-        name="interests"
-        value={UserData.interests}
-        onChange={handleInputChange}
+        id="outlined-select-currency"
+        select
+        label="Civil Status"
+        defaultValue="EUR"
       >
-        <option value="sports">Sports</option>
-        <option value="movies">Movies</option>
-        <option value="books">Books</option>
-      </select>
+        {civilStatus.map((option) => (
+          <MenuItem key={option.id} value={option.id}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </TextField>
 
-      <button type="submit">Submit</button>
-    </Stack>
+      <br />
+      <button type="submit" variant="outlined" className="col-span-8">
+        Submit
+      </button>
+    </form>
   );
 }
 
