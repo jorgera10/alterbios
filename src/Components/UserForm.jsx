@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import "../index.css";
-import { Checkbox, FormControlLabel, MenuItem, TextField } from "@mui/material";
-import CustomTextField from "./TemplateComponents";
+import {
+  CustomCheckbox,
+  CustomSelect,
+  CustomTextField,
+} from "./TemplateComponents";
+import { Button } from "@mui/material";
 
 function UserForm() {
   const civilStatus = [
@@ -23,13 +27,16 @@ function UserForm() {
     },
   ];
 
-  const [UserData, setUserData] = useState({
+  const [userData, setUserData] = useState({
     name: "",
     lastName: "",
     age: 0,
     isActive: false,
-    birthdate: "01/01/1999",
-    civilStatus: [],
+    birthdate: "--/--/----",
+    civilStatus: {
+      id: 0,
+      label: "",
+    },
   });
 
   const handleInputChange = (e) => {
@@ -37,17 +44,29 @@ function UserForm() {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
-    setUserData({
-      ...UserData,
-      [name]: value,
-    });
+    if (name === "civilStatus") {
+      const selectedOption = civilStatus.find(
+        (option) => option.label === target.value
+      );
+
+      setUserData({
+        ...userData,
+        civilStatus: {
+          id: selectedOption.id,
+          label: selectedOption.label,
+        },
+      });
+    } else {
+      setUserData({
+        ...userData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, lastName, age, isActive, birthdate, civilStatus } = UserData;
-    const user = { name, lastName, age, isActive, birthdate, civilStatus };
-    console.log(user);
+    console.log(userData);
   };
 
   return (
@@ -60,7 +79,7 @@ function UserForm() {
         label="Name"
         name="name"
         type="text"
-        value={UserData.name}
+        value={userData.name}
         onChange={handleInputChange}
       />
       <CustomTextField
@@ -68,7 +87,7 @@ function UserForm() {
         label="Last Name"
         name="lastName"
         type="text"
-        value={UserData.lastName}
+        value={userData.lastName}
         onChange={handleInputChange}
       />
 
@@ -77,49 +96,39 @@ function UserForm() {
         label="Age"
         type="number"
         name="age"
-        value={UserData.age}
+        value={userData.age}
         onChange={handleInputChange}
       />
 
       <CustomTextField
         className="col-span-4"
-        label="Date"
+        label="Birth Date"
         type="date"
-        name="date"
-        value={UserData.birthdate}
+        name="birthdate"
+        value={userData.birthdate}
         onChange={handleInputChange}
       />
 
-      <FormControlLabel
-        control={
-          <Checkbox
-            type="checkbox"
-            id="isActive"
-            name="isActive"
-            checked={UserData.isActive}
-            onChange={handleInputChange}
-          />
-        }
+      <CustomCheckbox
+        className="col-span-4"
+        name="isActive"
+        checked={userData.isActive}
+        onChange={handleInputChange}
         label="Graduated"
       />
 
-      <TextField
-        id="outlined-select-currency"
-        select
+      <CustomSelect
+        className="col-span-4"
         label="Civil Status"
-        defaultValue="EUR"
-      >
-        {civilStatus.map((option) => (
-          <MenuItem key={option.id} value={option.id}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
+        name="civilStatus"
+        value={userData.civilStatus.label}
+        onChange={handleInputChange}
+        options={civilStatus}
+      />
 
-      <br />
-      <button type="submit" variant="outlined" className="col-span-8">
+      <Button type="submit" variant="outlined" className="col-span-8">
         Submit
-      </button>
+      </Button>
     </form>
   );
 }
