@@ -6,12 +6,16 @@ import {
   CustomTextField,
 } from "./TemplateComponents";
 import { Button } from "@mui/material";
+import { addTask } from "../Features/Tasks/taskSlice";
+import { useDispatch } from "react-redux";
+import { v4 as uuid } from "uuid";
 
 function UserForm() {
+  const dispatch = useDispatch();
   const taskType = [
     {
       id: 1,
-      label: "Staff",
+      label: "Personal",
     },
     {
       id: 2,
@@ -63,6 +67,7 @@ function UserForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(userData);
+    dispatch(addTask({ ...userData, id: uuid() }));
   };
 
   return (
@@ -115,7 +120,7 @@ function UserForm() {
 
       <CustomSelect
         className="col-span-4"
-        label="Civil Status"
+        label="Task Type "
         name="taskType"
         value={userData.taskType.label}
         onChange={handleInputChange}
