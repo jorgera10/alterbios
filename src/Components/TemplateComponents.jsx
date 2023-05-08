@@ -47,7 +47,6 @@ export const CustomCheckbox = ({ name, checked, onChange, label }) => {
 export const CustomSelect = ({ label, name, value, onChange, options }) => {
   return (
     <TextField
-      required
       className="col-span-8  md:col-span-4 custom-input"
       select
       label={label}

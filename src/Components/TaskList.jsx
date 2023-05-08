@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Paper,
   Table,
@@ -10,7 +10,12 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTask, editTask } from "../Features/Tasks/taskSlice";
-import { DeleteOutline, EditOutlined } from "@mui/icons-material";
+import {
+  DeleteOutline,
+  EditOffOutlined,
+  EditOutlined,
+} from "@mui/icons-material";
+import EditModal, { MyButton, MyModal } from "./EditModal";
 
 function TaskList() {
   const dispatch = useDispatch();
@@ -21,17 +26,20 @@ function TaskList() {
   };
 
   const handleEdit = (
-    id,
-    title,
-    description,
-    importance,
-    finishDate,
-    fixed,
-    taskType
+    task
   ) => {
-    dispatch(editTask("asdf", "description", 4, "2001-02-15", "job"));
+    dispatch(editTask(task));
   };
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div>
       <h1>TaskList</h1>
@@ -60,6 +68,12 @@ function TaskList() {
                 <TableCell>
                   <DeleteOutline onClick={() => handleDelete(task.id)} />
                   <EditOutlined onClick={() => handleEdit(task)} />
+                  <MyButton handleOpen={handleOpen} handleEdit={task} />
+                  <MyModal
+                    open={open}
+                    handleClose={handleClose}
+                    values={task}
+                  />
                 </TableCell>
               </TableRow>
             ))}
