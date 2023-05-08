@@ -9,8 +9,10 @@ import { Button } from "@mui/material";
 import { addTask } from "../Features/Tasks/taskSlice";
 import { useDispatch } from "react-redux";
 import { v4 as uuid } from "uuid";
+import "../App.css";
 
-function UserForm() {
+function UserForm(task) {
+  const today = new Date().toISOString().split("T")[0];
   const dispatch = useDispatch();
   const taskType = [
     {
@@ -27,17 +29,19 @@ function UserForm() {
     },
   ];
 
-  const [userData, setUserData] = useState({
+  const initialState = {
     title: "",
     description: "",
     importance: 0,
     fixed: false,
-    finishDate: "--/--/----",
+    finishDate: today,
     taskType: {
       id: 0,
       label: "",
     },
-  });
+  };
+
+  const [userData, setUserData] = useState(initialState);
 
   const handleInputChange = (e) => {
     const target = e.target;
@@ -68,6 +72,7 @@ function UserForm() {
     e.preventDefault();
     console.log(userData);
     dispatch(addTask({ ...userData, id: uuid() }));
+    setUserData(initialState);
   };
 
   return (
@@ -76,42 +81,41 @@ function UserForm() {
       onSubmit={handleSubmit}
     >
       <CustomTextField
-        className="col-span-4"
         label="Title"
         name="title"
         type="text"
         value={userData.title}
         onChange={handleInputChange}
+        min=""
       />
       <CustomTextField
-        className="col-span-4"
         label="Description"
         name="description"
         type="text"
         value={userData.description}
         onChange={handleInputChange}
+        min=""
       />
 
       <CustomTextField
-        className="col-span-4"
         label="Importance"
         type="number"
         name="importance"
         value={userData.importance}
         onChange={handleInputChange}
+        min={0}
       />
 
       <CustomTextField
-        className="col-span-4"
         label="Finish Date"
         type="date"
+        min={today}
         name="finishDate"
         value={userData.finishDate}
         onChange={handleInputChange}
       />
 
       <CustomCheckbox
-        className="col-span-4"
         name="fixed"
         checked={userData.fixed}
         onChange={handleInputChange}
@@ -119,7 +123,6 @@ function UserForm() {
       />
 
       <CustomSelect
-        className="col-span-4"
         label="Task Type "
         name="taskType"
         value={userData.taskType.label}
@@ -127,8 +130,12 @@ function UserForm() {
         options={taskType}
       />
 
-      <Button type="submit" variant="outlined" className="col-span-8">
-        Submit
+      <Button
+        type="submit"
+        variant="outlined"
+        className="custom-input col-start-2 col-end-8 justify-self-center"
+      >
+        Add Task
       </Button>
     </form>
   );

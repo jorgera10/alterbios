@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTask } from "../Features/Tasks/taskSlice";
+import { deleteTask, editTask } from "../Features/Tasks/taskSlice";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 
 function TaskList() {
@@ -19,6 +19,19 @@ function TaskList() {
   const handleDelete = (taskId) => {
     dispatch(deleteTask(taskId));
   };
+
+  const handleEdit = (
+    id,
+    title,
+    description,
+    importance,
+    finishDate,
+    fixed,
+    taskType
+  ) => {
+    dispatch(editTask("asdf", "description", 4, "2001-02-15", "job"));
+  };
+
   return (
     <div>
       <h1>TaskList</h1>
@@ -46,7 +59,7 @@ function TaskList() {
                 <TableCell>{task.taskType.label}</TableCell>
                 <TableCell>
                   <DeleteOutline onClick={() => handleDelete(task.id)} />
-                  <EditOutlined />
+                  <EditOutlined onClick={() => handleEdit(task)} />
                 </TableCell>
               </TableRow>
             ))}

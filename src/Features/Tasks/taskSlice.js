@@ -3,10 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = [
   {
     id: 1,
-    title: "be cool",
-    description: "be yourself",
+    title: "Be cool",
+    description: "Be yourself",
     importance: 5,
-    finishDate: "07/06/2023",
+    finishDate: "Tomorrow",
     fixed: true,
     taskType: {
       id: "1",
@@ -26,8 +26,29 @@ export const taskSlice = createSlice({
       const taskFind = state.find((task) => task.id === action.payload);
       state.splice(state.indexOf(taskFind), 1);
     },
+    editTask: (state, action) => {
+      const {
+        id,
+        title,
+        description,
+        importance,
+        finishDate,
+        fixed,
+        taskType,
+      } = action.payload;
+      const foundTask = state.find((task) => task.id === id);
+      console.log(foundTask);
+      if (foundTask) {
+        foundTask.title = title;
+        foundTask.description = description;
+        foundTask.importance = importance;
+        foundTask.finishDate = finishDate;
+        foundTask.fixed = fixed;
+        foundTask.taskType.label = taskType;
+      }
+    },
   },
 });
 
-export const { addTask, deleteTask } = taskSlice.actions;
+export const { addTask, deleteTask, editTask } = taskSlice.actions;
 export default taskSlice.reducer;

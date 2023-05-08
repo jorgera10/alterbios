@@ -1,17 +1,17 @@
 import { Checkbox, FormControlLabel, TextField, MenuItem } from "@mui/material";
 
 export const CustomTextField = ({
-  className,
   name,
   label,
   value,
   onChange,
   type,
+  min,
 }) => {
   return (
     <TextField
       required
-      className={className}
+      className="col-span-8 border-2 border-red-500 md:col-span-4 custom-input"
       hiddenLabel
       id={name}
       label={label}
@@ -21,20 +21,15 @@ export const CustomTextField = ({
       name={name}
       value={value}
       onChange={onChange}
+      min={min}
     />
   );
 };
 
-export const CustomCheckbox = ({
-  className,
-  name,
-  checked,
-  onChange,
-  label,
-}) => {
+export const CustomCheckbox = ({ name, checked, onChange, label }) => {
   return (
     <FormControlLabel
-      className={className}
+      className="col-span-8 md:col-span-4 custom-input"
       control={
         <Checkbox
           type="checkbox"
@@ -49,18 +44,11 @@ export const CustomCheckbox = ({
   );
 };
 
-export const CustomSelect = ({
-  className,
-  label,
-  name,
-  value,
-  onChange,
-  options,
-}) => {
+export const CustomSelect = ({ label, name, value, onChange, options }) => {
   return (
     <TextField
       required
-      className={className}
+      className="col-span-8  md:col-span-4 custom-input"
       select
       label={label}
       variant="outlined"
