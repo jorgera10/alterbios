@@ -1,6 +1,10 @@
-
 .custom-input {
-    border-radius: 5px;
-    transform: skew(-10deg);
-  }
-  
+  border-radius: 5px;
+  transform: skew(-10deg);
+}
+
+.shadow-card {
+  -webkit-box-shadow: 10px 17px 62px -15px rgba(0,0,0,0.69);
+  -moz-box-shadow: 10px 17px 62px -15px rgba(0,0,0,0.69);
+  box-shadow: 10px 17px 62px -15px rgba(0,0,0,0.69);
+}

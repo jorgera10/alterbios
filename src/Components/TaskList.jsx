@@ -1,21 +1,13 @@
 import React, { useState } from "react";
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import { Checkbox } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTask, editTask } from "../Features/Tasks/taskSlice";
-import {
-  DeleteOutline,
-  EditOffOutlined,
-  EditOutlined,
-} from "@mui/icons-material";
-import EditModal, { MyButton, MyModal } from "./EditModal";
+import { DeleteOutline, Favorite, FavoriteBorder } from "@mui/icons-material";
+import { MyButton, MyModal } from "./EditModal";
+import { Card } from "antd";
+import "../App.css";
+
+const { Meta } = Card;
 
 function TaskList() {
   const dispatch = useDispatch();
@@ -25,9 +17,7 @@ function TaskList() {
     dispatch(deleteTask(taskId));
   };
 
-  const handleEdit = (
-    task
-  ) => {
+  const handleEdit = (task) => {
     dispatch(editTask(task));
   };
 
@@ -42,44 +32,46 @@ function TaskList() {
   };
   return (
     <div>
-      <h1>TaskList</h1>
-      <TableContainer component={Paper} className="mx-10">
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Fixed</TableCell>
-              <TableCell>Title</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Importance</TableCell>
-              <TableCell>FinishDate</TableCell>
-              <TableCell>TaskType</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tasks.map((task) => (
-              <TableRow key={task.id}>
-                <TableCell>{task.fixed}</TableCell>
-                <TableCell>{task.title}</TableCell>
-                <TableCell>{task.description}</TableCell>
-                <TableCell>{task.importance}</TableCell>
-                <TableCell>{task.finishDate}</TableCell>
-                <TableCell>{task.taskType.label}</TableCell>
-                <TableCell>
-                  <DeleteOutline onClick={() => handleDelete(task.id)} />
-                  <EditOutlined onClick={() => handleEdit(task)} />
-                  <MyButton handleOpen={handleOpen} handleEdit={task} />
-                  <MyModal
-                    open={open}
-                    handleClose={handleClose}
-                    values={task}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <div className="mx-16 my-10 grid grid-cols-4 grid-flow-row">
+        {tasks.map((task) => (
+          <Card
+            key={task.id}
+            className="shadow-card my-5"
+            style={{ width: 200 }}
+            actions={[
+              task.fixed ? (
+                <Checkbox
+                  icon={<FavoriteBorder />}
+                  checkedIcon={<Favorite />}
+                  defaultChecked
+                  disabled
+                />
+              ) : (
+                <Checkbox
+                  icon={<FavoriteBorder />}
+                  checkedIcon={<Favorite />}
+                  disabled
+                />
+              ),
+              <DeleteOutline onClick={() => handleDelete(task.id)} />,
+              <MyButton handleOpen={handleOpen} handleEdit={task} />,
+            ]}
+          >
+            <Meta
+              avatar={task.importance}
+              title={task.title}
+              description={
+                <div>
+                  {task.description}
+                  <br />
+                  FD: {task.finishDate}
+                </div>
+              }
+            />
+            <MyModal open={open} handleClose={handleClose} values={task} />
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

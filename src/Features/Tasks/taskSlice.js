@@ -13,18 +13,6 @@ const initialState = [
       label: "Personal",
     },
   },
-  {
-    id: 2,
-    title: "Be cool2",
-    description: "Be yourself2",
-    importance: 25,
-    finishDate: "Tomorrow",
-    fixed: true,
-    taskType: {
-      id: "1",
-      label: "job",
-    },
-  },
 ];
 
 export const taskSlice = createSlice({
@@ -35,7 +23,7 @@ export const taskSlice = createSlice({
       state.push(action.payload);
     },
     deleteTask: (state, action) => {
-      console.log(state)
+      console.log(state);
       const taskFind = state.find((task) => task.id === action.payload);
       state.splice(state.indexOf(taskFind), 1);
     },
@@ -50,9 +38,9 @@ export const taskSlice = createSlice({
         fixed,
         taskType,
       } = action.payload;
-      console.log(action.payload)
+      console.log(action.payload);
       const foundTask = state.find((task) => task.id === id);
-      console.log(state)
+      console.log(state);
       console.log(foundTask);
       if (foundTask) {
         foundTask.title = title;
@@ -62,7 +50,6 @@ export const taskSlice = createSlice({
         foundTask.fixed = fixed;
         foundTask.taskType.label = taskType;
       }
-      
     },
   },
 });

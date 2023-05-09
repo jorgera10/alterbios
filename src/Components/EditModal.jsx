@@ -10,9 +10,10 @@ import { addTask, editTask } from "../Features/Tasks/taskSlice";
 import { useDispatch } from "react-redux";
 import "../App.css";
 import { useParams } from "react-router-dom";
+import { EditOutlined } from "@mui/icons-material";
 
 export function MyButton({ handleOpen }) {
-  return <Button onClick={handleOpen}>Abrir modal</Button>;
+  return <EditOutlined onClick={handleOpen}>Abrir modal</EditOutlined>;
 }
 
 export function MyModal({ open, handleClose, values }) {
@@ -145,7 +146,7 @@ export function MyModal({ open, handleClose, values }) {
           <CustomSelect
             label="Task Type "
             name="taskType"
-            value={userData.taskType.label}
+            value={userData.taskType.label || ""}
             onChange={handleInputChange}
             options={taskType}
           />
